@@ -2,7 +2,7 @@
 
 ## About
 
-This project is my introduction into network programming. I'm implementing the
+This project is my introduction to network programming. I'm implementing the
 `ping` command in C. Currently, the program will only run on UNIX systems. This
 is also my first time doing socket programming.
 
@@ -16,6 +16,11 @@ Use either `sudo ./ping` from within the `bin` directory, or `sudo make run`
 from within the `src` directory. Root privileges are needed for this program
 because I am using raw sockets instead of datagram or stream sockets. I needed
 to use raw sockets for this low-level implementation.
+
+## How to test
+
+You can capture the packet using Wireshark or tcpdump and inspect it. This is
+how I've been testing and checking my implementation.
 
 ## Comments
 This is still not complete. I managed to get the command to work and get a
