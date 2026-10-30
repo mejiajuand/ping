@@ -1,6 +1,7 @@
 #ifndef PING_H
 #define PING_H
 
-void ping(char[]);
+/* ping command */
+void ping(const char*);
 
-#endif	/* PING_H */
+#endif /* PING_H */

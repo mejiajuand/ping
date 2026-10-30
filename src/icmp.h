@@ -8,17 +8,11 @@ struct icmp_packet {
 	uint8_t code;
 	uint16_t checksum;
 	uint16_t ident;
-	uint16_t sequence;
+	uint16_t seq;
 	uint32_t data;
 };
 
-/* echo packet constructor */
-struct icmp_packet icmp_echo_packet(void);
+/* echo message constructor */
+void icmp_echo_message(struct icmp_packet*);
 
-/* compute the internet checksum */
-void checksum(struct icmp_packet*);
-
-/* show packet details */
-void show_packet(const struct icmp_packet*);
-
-#endif	/* ICMP_H */
+#endif /* ICMP_H */

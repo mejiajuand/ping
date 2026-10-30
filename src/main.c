@@ -1,8 +1,11 @@
 #include "ping.h"
 
 int
-main(void)
+main(int argc, char *argv[])
 {
-	ping("127.0.0.1");
+	if (argc != 2)
+		ping("127.0.0.1");  /* loopback address */
+	else
+		ping(argv[1]);
 	return 0;
 }
