@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS=-Wall -Wextra -Wpedantic -std=iso9899:1999
+CFLAGS=-Wall -Wextra -Wpedantic -std=iso9899:1999 -O2
 
 ../bin/ping: $(wildcard *.[c|h])
 	mkdir -p ../bin
