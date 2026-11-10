@@ -125,7 +125,6 @@ CLEANUP:
 	if (d != -1) {
 		close(d);
 	}
-
 	if (p) {
 		freeaddrinfo(p);
 	}

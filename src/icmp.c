@@ -15,7 +15,7 @@ uint16_t checksum(const struct icmp_packet*);
 struct icmp_packet *
 icmp_echo_message(void)
 {
-struct icmp_packet *packet = malloc(sizeof(struct icmp_packet));
+	struct icmp_packet *packet = malloc(sizeof(struct icmp_packet));
 	packet->type  = 8;  /* echo message */
 	packet->code  = 0;
 	packet->sum   = 0;
