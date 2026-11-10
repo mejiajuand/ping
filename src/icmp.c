@@ -10,7 +10,7 @@ static uint16_t identifier = 0;
 static uint16_t sequence = 0;
 
 /* internet checksum */
-uint16_t checksum(const struct icmp_packet*);
+static uint16_t checksum(const struct icmp_packet*);
 
 struct icmp_packet *
 icmp_echo_message(void)
