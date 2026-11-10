@@ -28,3 +28,25 @@ traditionally implemented using raw sockets.
 
 Navigate to `./bin/release` and run the program using `./ping [target_ip]`.
 If you are on a BSD or Macintosh system, run `./ping` with root privileges.
+
+## References
+
+- Hands-On Network Programming with C by Lewis Van Winkle
+- Beej's Guide to Network Programming Using Internet Sockets by Brian "Beej Jorgensen" Hall
+- RFC 791 - Internet Protocol
+- RFC 792 - Internet Control Message Protocol
+- RFC 1071 - Computing the Internet checksum
+- RFC 1141 - Incremental updating of the Internet checksum
+- Linux getaddrinfo(3) man page
+- Linux socket(2) man page
+- Linux connect(2) man page
+- Linux sendto(2) man page
+- Linux recvfrom(2) man page
+- Linux errno(3) man page
+- Linux malloc(3) man page
+- Linux time.h(0P) man page
+- Linux close(2) man page
+- Linux memset(3) man page
+- Linux size_t(3type) man page
+- Linux tcpdump(1) man page
+- Linux tshark(1) man page
