@@ -4,8 +4,7 @@ int
 main(int argc, char **argv)
 {
 	if (argc < 2) {
-		/* IPv4 loopback address */
-		ping("127.0.0.1");
+		ping("127.0.0.1");  /* loopback address */
 	}
 	else if (argc == 2) {
 		ping(argv[1]);

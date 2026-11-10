@@ -19,7 +19,7 @@ ping(const char addr[])
 {
 	int ec, d;  /* error code, file descriptor */
 	struct addrinfo hints, *p;
-	struct icmp_packet *packet = NULL;
+	struct icmp_packet *packet;
 
 	int i;
 	char buf[BUFFERSIZE];
@@ -34,7 +34,7 @@ ping(const char addr[])
 	hints.ai_protocol = IPPROTO_ICMP;
 	hints.ai_flags = AI_ADDRCONFIG;
 
-	/* lookup the address */
+	/* lookup and resolve the address */
 	if ((ec = getaddrinfo(addr, NULL, &hints, &p)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(ec));
 		exit(EXIT_FAILURE);
@@ -46,7 +46,7 @@ ping(const char addr[])
 		goto CLEANUP; exit(EXIT_FAILURE);
 	}
 
-	/* establish a connection to the address */
+	/* establish a connection to the target */
 	if ((ec = connect(d, p->ai_addr, p->ai_addrlen)) == -1) {
 		fprintf(stderr, "connect: %s\n", strerror(errno));
 		goto CLEANUP; exit(EXIT_FAILURE);

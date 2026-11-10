@@ -21,9 +21,10 @@ equivalent to `CAP_NET_RAW`, you will have to run the program as root.
 
 The `CAP_NET_RAW` privilege is important because the program needs to open a
 raw socket to transmit ICMP packets. I could not use datagram sockets to
-implement `ping`. `ping` is traditionally implemented using raw sockets.
+implement `ping`, it appears that not all systems support it. `ping` is
+traditionally implemented using raw sockets.
 
 ## How to run
 
 Navigate to `./bin/release` and run the program using `./ping [target_ip]`.
-If you are on a BSD or Mac system, run `./ping` with root privileges.
+If you are on a BSD or Macintosh system, run `./ping` with root privileges.
