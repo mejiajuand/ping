@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 Juan Mejia
 
 #ifndef ICMP_H
 #define ICMP_H
