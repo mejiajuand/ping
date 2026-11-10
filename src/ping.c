@@ -81,13 +81,13 @@ ping(const char addr[])
 			free(packet); goto CLEANUP; exit(EXIT_FAILURE);
 		}
 
-		/* end the trip timer */
+		/* end the timer */
 		end = time(NULL);
 
 		/* compute round-trip time */
 		elapsed = difftime(end, start);
 
-		/* set the minimum and maximum times */
+		/* set the minimum and maximum recorded times */
 		if (elapsed > max) {
 			max = elapsed;
 		}
