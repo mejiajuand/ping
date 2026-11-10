@@ -11,10 +11,12 @@ the BSD operating systems, the Macintosh operating system, and Linux systems.
 
 ## How to build
 
-From within the `src` directory, run `make release` to compile an optimised
-executable. Then, if you are on Linux, navigate to `./bin/release` and run the
-command `sudo setcap cap_net_raw+ep ./ping` to grant the `CAP_NET_RAW`
-privilege to the program. Note the full-stop forward-slash in `./ping`.
+Navigate to the `src` directory and modify the `CC` variable in the `Makefile`
+to point to your C compiler, either `gcc` or `clang`, then
+run `make release` to compile an optimised executable. Then, if you are on
+Linux, navigate to `./bin/release` and run the command
+`sudo setcap cap_net_raw+ep ./ping` to grant the `CAP_NET_RAW` privilege to the
+program. Note the full-stop forward-slash in `./ping`.
 
 The BSD operating systems and the Macintosh operating system do not provide an
 equivalent to `CAP_NET_RAW`, you will have to run the program as root.
