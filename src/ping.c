@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
