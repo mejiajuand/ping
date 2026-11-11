@@ -4,8 +4,8 @@
 #ifndef ICMP_H
 #define ICMP_H
 
-#include <stdlib.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 struct icmp_packet {
@@ -23,4 +23,4 @@ struct icmp_packet *icmp_echo_message(void);
 /* inspect an icmp packet */
 void icmp_inspect(const struct icmp_packet*);
 
-#endif  /* ICMP_H */
+#endif /* ICMP_H */

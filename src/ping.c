@@ -6,126 +6,122 @@
 #include <netdb.h>
 
 #include <string.h>
-
 #include <unistd.h>
 #include <errno.h>
 #include <time.h>
 
+#include <math.h>
+
 #include "icmp.h"
 #include "ping.h"
 
-#define COUNT 4        /* ping count */
+#define COUNT 4
 #define BUFFERSIZE 64
 
 void
 ping(const char addr[])
 {
-	int ec, d;  /* error code, file descriptor */
+	int ec, d; /* error code, file descriptor */
 	struct addrinfo hints, *p;
-	struct icmp_packet *packet;
 
-	int i;
-	char buf[BUFFERSIZE];
 	time_t start, end;
-	double elapsed, min = -1, max = 0, total_time = 0;
+	char buf[BUFFERSIZE];
+	struct icmp_packet *packet;
+	double rtt, total_rtt = 0, min = -1, avg, max = 0, mdev;
 	ssize_t sent, received, total_sent = 0, total_received = 0;
 
 	memset(&hints, 0, sizeof(hints));
-
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;
 	hints.ai_flags = AI_ADDRCONFIG;
 
-	/* lookup and resolve the address */
-	if ((ec = getaddrinfo(addr, NULL, &hints, &p)) != 0) {
+	/* resolve the address */
+	ec = getaddrinfo(addr, NULL, &hints, &p);
+
+	if (ec != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(ec));
 		exit(EXIT_FAILURE);
 	}
 
-	/* retrieve a socket file descriptor */
-	if ((d = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
+	/* create a socket */
+	d = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
+
+	if (d == -1) {
 		fprintf(stderr, "socket: %s\n", strerror(errno));
 		goto CLEANUP; exit(EXIT_FAILURE);
 	}
 
-	/* establish a connection to the target */
-	if ((ec = connect(d, p->ai_addr, p->ai_addrlen)) == -1) {
+	/* connect to the target */
+	ec = connect(d, p->ai_addr, p->ai_addrlen);
+
+	if (ec != 0) {
 		fprintf(stderr, "connect: %s\n", strerror(errno));
 		goto CLEANUP; exit(EXIT_FAILURE);
 	}
 
-	/* send the packet */
-	printf("Pinging %s with %zu bytes of data\n", addr, sizeof(*packet));
+	/* send the message to the target */
+	printf("Pinging %s with %zu bytes of data\n",
+		addr, sizeof *packet);
 
-	for (i = 0; i < COUNT; i++) {
-		/* create the icmp packet */
+	for (int i = 0; i < COUNT; i++) {
+		start = time(NULL);
 		packet = icmp_echo_message();
 
-		/* time the trip */
-		start = time(NULL);
-
-		sent = sendto(d, packet, sizeof(*packet), 0,
-			p->ai_addr, p->ai_addrlen);
+		sent = send(d, packet, sizeof *packet, 0);
 
 		if (sent == -1) {
-			fprintf(stderr, "sendto: %s\n", strerror(errno));
+			fprintf(stderr, "send: %s\n", strerror(errno));
 			free(packet); goto CLEANUP; exit(EXIT_FAILURE);
 		}
 
-		received = recvfrom(d, buf, BUFFERSIZE, 0,
-			p->ai_addr, &p->ai_addrlen);
+		received = recv(d, buf, BUFFERSIZE, 0);
 
 		if (received == -1) {
-			fprintf(stderr, "recvfrom: %s\n", strerror(errno));
+			fprintf(stderr, "recv: %s\n", strerror(errno));
 			free(packet); goto CLEANUP; exit(EXIT_FAILURE);
 		}
 
-		/* end the timer */
 		end = time(NULL);
+		rtt = difftime(end, start);
 
-		/* compute round-trip time */
-		elapsed = difftime(end, start);
-
-		/* set the minimum and maximum recorded times */
-		if (elapsed > max) {
-			max = elapsed;
-		}
-		if (elapsed < min) {
-			min = elapsed;
-		}
-		if (min < 0) {
-			min = elapsed;
-		}
-
-		/* sum the totals */
-		total_time += elapsed;
+		/* sum the total values */
+		total_rtt += rtt;
 		total_sent += sent;
 		total_received += received;
 
-		/* display the ping result */
-		printf("Received %zu bytes from %s: icmp_seq=%u time=%f s\n",
-			received, addr, packet->seq, elapsed);
+		/* get the min and max times */
+		if (rtt > max)
+			max = rtt;
+		if (rtt < min || min == -1)
+			min = rtt;
+
+		printf("%zd bytes received from %s: seq=%u time=%f s\n",
+			received, addr, packet->seq, rtt);
 
 		free(packet);
 	}
 
-	/* display the ping statistics */
+	/* display ping statistics */
 	printf("\n--- %s ping statistics ---\n", addr);
 	printf("%zd packets sent, ", total_sent / sent);
 	printf("%zd packets received, ", total_received / received);
-	printf("%.0f%% packet loss, ", (1 - (double)(sent * total_received)
+	printf("%.0f%% packet loss, ",
+		(1 - (double)(sent * total_received)
 		/ (double)(received * total_sent)) * 100);
-	printf("time %f s\n", total_time);
+	printf("time %f s\n", total_rtt);
 
-	/* display the round-trip time statistics */
-	printf("rtt min/avg/max = %f/%f/%f s\n", min, (max + min) / 2, max);
+	/* display rtt statistics */
+	avg = (min + max) / 2;
+	mdev = sqrt((((min * min) + (max * max)) / 2) - (avg * avg));
+	printf("\n--- round-trip time statistics ---\n");
+	printf("rtt min/avg/max/mdev = %f/%f/%f/%f s\n",
+		min, avg, max, mdev);
 
 CLEANUP:
-	if (d != -1) {
+	if (d != -1)
 		close(d);
-	}
-	if (p) {
+
+	if (p)
 		freeaddrinfo(p);
-	}
 }

@@ -4,16 +4,16 @@
 #include "ping.h"
 
 int
-main(int argc, char **argv)
+main(int argc, char *argv[])
 {
-	if (argc < 2) {
-		ping("127.0.0.1");  /* loopback address */
-	}
-	else if (argc == 2) {
-		ping(argv[1]);
-	}
-	else {
-		return 1;
-	}
+        if (argc < 2)
+                ping("127.0.0.1"); /* loopback address */
+
+        else if (argc == 2)
+                ping(argv[1]);
+
+        else
+                return 1;
+
 	return 0;
 }
