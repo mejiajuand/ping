@@ -25,7 +25,7 @@ DEBUG := $(COMMON) -O0 -g3 -fno-omit-frame-pointer
 
 RELEASE := $(COMMON) $(PRODUCTION)
 
-.PHONY: debug release
+.PHONY: all debug release run clean
 
 all:
 	mkdir -p ../bin/debug
