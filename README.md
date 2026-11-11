@@ -5,8 +5,7 @@
 This project is my introduction to network programming. I have implemented the
 `ping` network utility. It issues out 4 packets and displays some statistics
 concerning the packets. The number of packets transmitted can be controlled via
-the `COUNT` macro in `ping.c`. This utility works on both IPv4 and IPv6
-addresses. This utility will only work on Unix-like systems, so that is
+the `COUNT` macro in `ping.c`. This utility will only work on Unix-like systems, so that is
 the BSD operating systems, the Macintosh operating system, and Linux systems.
 
 ## How to build
