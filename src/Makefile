@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Juan Mejia
 
-CC := clang
+CC := cc
 
 SRC := main.c icmp.c ping.c
 
@@ -29,7 +29,7 @@ RELEASE := $(COMMON) $(PRODUCTION)
 
 all:
 	mkdir -p ../bin/debug
-	cc $(SRC) -o ../bin/debug/ping -lm
+	$(CC) $(SRC) -o ../bin/debug/ping -lm
 
 debug:
 	mkdir -p ../bin/debug
