@@ -27,6 +27,10 @@ RELEASE := $(COMMON) $(PRODUCTION)
 
 .PHONY: debug release
 
+all:
+	mkdir -p ../bin/debug
+	cc $(SRC) -o ../bin/debug/ping -lm
+
 debug:
 	mkdir -p ../bin/debug
 	$(CC) $(DEBUG) $(SRC) -o ../bin/debug/ping -lm
