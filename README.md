@@ -28,8 +28,8 @@ traditionally implemented using raw sockets.
 
 ## How to run
 
-Navigate to `./bin/release` and run the program using `./ping [target_ip]`.
-If you are on a BSD or Macintosh system, run `./ping` with root privileges.
+Navigate to `./bin/release` and run the program using `./ping [ip_address]`.
+If you are on a BSD or Macintosh system, run the program with root privileges.
 
 ## References
 
