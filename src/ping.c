@@ -21,7 +21,7 @@
 void
 ping(const char addr[])
 {
-	int ec, d; /* error code, file descriptor */
+	int ec, d; /* error code, exit status, file descriptor */
 	struct addrinfo hints, *p;
 
 	time_t start, end;
@@ -49,7 +49,7 @@ ping(const char addr[])
 
 	if (d == -1) {
 		fprintf(stderr, "socket: %s\n", strerror(errno));
-		goto CLEANUP; exit(EXIT_FAILURE);
+		goto CLEANUP;
 	}
 
 	/* connect to the target */
@@ -57,7 +57,7 @@ ping(const char addr[])
 
 	if (ec != 0) {
 		fprintf(stderr, "connect: %s\n", strerror(errno));
-		goto CLEANUP; exit(EXIT_FAILURE);
+		goto CLEANUP;
 	}
 
 	/* send the message to the target */
@@ -72,14 +72,14 @@ ping(const char addr[])
 
 		if (sent == -1) {
 			fprintf(stderr, "send: %s\n", strerror(errno));
-			free(packet); goto CLEANUP; exit(EXIT_FAILURE);
+			free(packet); goto CLEANUP;
 		}
 
 		received = recv(d, buf, BUFFERSIZE, 0);
 
 		if (received == -1) {
 			fprintf(stderr, "recv: %s\n", strerror(errno));
-			free(packet); goto CLEANUP; exit(EXIT_FAILURE);
+			free(packet); goto CLEANUP;
 		}
 
 		end = time(NULL);
