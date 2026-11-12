@@ -41,7 +41,7 @@ ping(const char addr[])
 
 	if (ec != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(ec));
-		exit(EXIT_FAILURE);
+		return;
 	}
 
 	/* create a socket */
