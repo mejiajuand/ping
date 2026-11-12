@@ -13,7 +13,7 @@ systems. This utility should work on both IPv4 and IPv6 addresses.
 
 Navigate to the `src` directory and modify the `CC` variable in the `Makefile`
 to point to your C compiler, either `gcc` or `clang`, then run `make` to compile
-the executable. Then, if you are onLinux, navigate to `./bin/release` and run the
+the executable. Then, if you are onLinux, navigate to `./bin/debug` and run the
 command `sudo setcap cap_net_raw+ep ./ping` to grant the `CAP_NET_RAW` privilege
 to theprogram. Note the full-stop forward-slash in `./ping`.
 
