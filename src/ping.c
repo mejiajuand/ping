@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Juan Mejia
+ */
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
