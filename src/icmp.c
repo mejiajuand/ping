@@ -11,7 +11,7 @@ static uint16_t identifier = 0;
 /* icmp sequence */
 static uint16_t sequence = 0;
 
-/* computes the Internet checksum */
+/* compute the Internet checksum */
 static uint16_t checksum(const struct icmp_packet*);
 
 struct icmp_packet *
