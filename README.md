@@ -11,7 +11,7 @@ systems. This utility should work on both IPv4 and IPv6 addresses.
 
 ## How to build
 
-Navigate to the `src` directory and run `make` to compile the executable. Then, if
+Navigate to the `src` directory and run `make` to build the executable. Then, if
 you are on Linux, navigate to `./bin/release` and run
 `sudo setcap cap_net_raw+ep ./ping` to grant the `CAP_NET_RAW` privilege to the
 program. Note the full-stop forward-slash in `./ping`.
