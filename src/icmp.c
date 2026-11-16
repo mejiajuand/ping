@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2026 Juan Mejia
+ */
+
 #include "icmp.h"
 
 /* icmp identifier */
@@ -6,7 +11,7 @@ static uint16_t identifier = 0;
 /* icmp sequence */
 static uint16_t sequence = 0;
 
-/* compute the Internet checksum */
+/* Internet checksum */
 static uint16_t checksum(const struct icmp_packet*);
 
 struct icmp_packet *
