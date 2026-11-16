@@ -1,6 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
-// Copyright (C) 2026 Juan Mejia
-
 #ifndef ICMP_H
 #define ICMP_H
 
@@ -20,7 +17,7 @@ struct icmp_packet {
 /* echo message constructor */
 struct icmp_packet *icmp_echo_message(void);
 
-/* inspect an icmp packet */
-void icmp_inspect(const struct icmp_packet*);
+/* inspect an ICMP packet */
+void inspect(const struct icmp_packet*);
 
 #endif /* ICMP_H */
