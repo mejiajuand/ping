@@ -1,7 +1,5 @@
-/*
- * SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright (C) 2026 Juan Mejia
- */
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Juan Mejia
 
 CC=cc
 SRC=main.c ping.c icmp.c
