@@ -25,4 +25,4 @@ struct icmp_packet *icmp_echo_message(void);
 /* inspect an ICMP packet */
 void inspect(const struct icmp_packet*);
 
-#endif /* ICMP_H */
+#endif  /* ICMP_H */

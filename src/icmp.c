@@ -3,28 +3,28 @@
  * Copyright (C) 2026 Juan Mejia
  */
 
-#include "icmp.h"
+#include "../include/icmp.h"
 
-/* icmp identifier */
+/* ICMP identifier */
 static uint16_t identifier = 0;
 
-/* icmp sequence */
+/* ICMP sequence */
 static uint16_t sequence = 0;
 
-/* compute the Internet checksum */
+/* Internet checksum */
 static uint16_t checksum(const struct icmp_packet*);
 
 struct icmp_packet *
 icmp_echo_message(void)
 {
 	struct icmp_packet *packet = malloc(sizeof(struct icmp_packet));
-	packet->type = 8; /* echo message */
-	packet->code = 0;
-	packet->sum  = 0;
+	packet->type  = 8;  /* echo message */
+	packet->code  = 0;
+	packet->sum   = 0;
 	packet->ident = ++identifier;
 	packet->seq   = ++sequence;
 	packet->data  = 0x41414141;
-	packet->sum = checksum(packet);
+	packet->sum   = checksum(packet);
 	return packet;
 }
 
@@ -44,7 +44,7 @@ inspect(const struct icmp_packet *packet)
 static uint16_t
 checksum(const struct icmp_packet *packet)
 {
-	uint32_t sum = packet->data + packet->ident + packet->seq
+	uint32_t sum = packet->data + packet->seq + packet->ident
 		+ packet->sum + packet->code + packet->type;
 	sum = ~((sum & 0xffff) + (sum >> 16));
 	return (uint16_t)sum;

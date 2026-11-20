@@ -13,32 +13,42 @@
 #include <time.h>
 #include <math.h>
 
-#include "ping.h"
-#include "icmp.h"
+#include "../include/icmp.h"
+#include "../include/ping.h"
 
-#define MAXSIZE 64
+#define BUFSIZE 64
 #define COUNT 4
 
-void
-ping(const char node[])
+int
+main(int argc, char *argv[])
 {
-	int ec, d = -1; /* error code, descriptor */
+	if (argc != 2)
+		fprintf(stderr, "usage: ./ping <ip_address>\n");
+	else
+		ping(argv[1]);
+	return 0;
+}
+
+void
+ping(const char addr[])
+{
+	int ec, d = -1;  /* error code, descriptor */
 	struct addrinfo hints, *res, *rp;
 
-	char buf[MAXSIZE];
+	char buffer[BUFSIZE];
 	time_t start, end;
 	struct icmp_packet *packet = NULL;
 	double rtt, total_time = 0, min = -1, avg, max = 0, mdev;
 	ssize_t sent, received, total_sent = 0, total_received = 0;
 
 	memset(&hints, 0, sizeof hints);
-	hints.ai_family   = PF_UNSPEC;
+	hints.ai_family = PF_UNSPEC;
 	hints.ai_socktype = SOCK_RAW;
 	hints.ai_protocol = IPPROTO_ICMP;
-	hints.ai_flags    = AI_ADDRCONFIG;
+	hints.ai_flags = AI_ADDRCONFIG;
 
 	/* resolve the address */
-	if ((ec = getaddrinfo(node, NULL, &hints, &res)) != 0) {
+	if ((ec = getaddrinfo(addr, NULL, &hints, &res)) != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(ec));
 		return;
 	}
@@ -68,7 +78,7 @@ ping(const char node[])
 	}
 
 	/* send a message to the host */
-	printf("Pinging %s with %zu bytes of data\n", node,
+	printf("Pinging %s with %zu bytes of data\n", addr,
 		sizeof *packet);
 	for (int i = 0; i < COUNT; i++) {
 		packet = icmp_echo_message();
@@ -80,7 +90,7 @@ ping(const char node[])
 			free(packet); goto CLEANUP;
 		}
 
-		if ((received = recv(d, buf, MAXSIZE, 0)) == -1) {
+		if ((received = recv(d, buffer, BUFSIZE, 0)) == -1) {
 			fprintf(stderr, "recv: %s\n", strerror(errno));
 			free(packet); goto CLEANUP;
 		}
@@ -104,13 +114,13 @@ ping(const char node[])
 
 		/* print the ping statistics */
 		printf("%zd bytes from %s: seq=%u time=%0.f ms\n",
-			received, node, packet->seq, rtt * 1000);
+			received, addr, packet->seq, rtt * 1000);
 
 		free(packet);
 	}
 
 	/* summarise the ping statistics and print */
-	printf("\n-- %s ping statistics --\n", node);
+	printf("\n-- %s ping statistics --\n", addr);
 	printf("packets sent: %u | ", (unsigned)(total_sent / sent));
 	printf("packets received: %u | ",
 		(unsigned)(total_received / received));
