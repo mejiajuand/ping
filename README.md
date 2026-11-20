@@ -11,23 +11,20 @@ systems. This utility should work on both IPv4 and IPv6 addresses.
 
 ## How to build
 
-Navigate to the `src` directory and run `make` to build the executable. Then, if
-you are on Linux, navigate to `./bin/release` and run
-`sudo setcap cap_net_raw+ep ./ping` to grant the `CAP_NET_RAW` privilege to the
-program. Note the full-stop forward-slash in `./ping`.
-
-The BSD operating systems and the Macintosh operating system do not provide an
-equivalent to `CAP_NET_RAW`, you will have to run the program as root.
-
-The `CAP_NET_RAW` privilege is important because the program needs to open a
-raw socket to transmit ICMP packets. I could not use datagram sockets to
-implement `ping`, it appears that not all systems support it. `ping` is
-traditionally implemented using raw sockets.
+With either `gcc` or `clang` installed, run `make release`, then, if you are on
+Linux, navigate to `./bin/release/` and give the executable the `CAP_NET_RAW` privilege by
+running the following command: `sudo setcap cap_net_raw+ep ./ping`. Note the full-stop
+forward-slash before the executable name. If you are on MacOS or BSD, you will need to
+run the executable as root. MacOS and BSD do not have an equivalent to Linux's `CAP_NET_RAW`
+privilege. This privilege is necessary because the program operates on **raw sockets**. I
+could not implement this command using datagram sockets, it appears that this is not a
+supported feature on many operating systems. `ping` is traditionally implemented
+using **raw sockets**, and so it requires permissions to open raw sockets.
 
 ## How to run
 
 Navigate to `./bin/release` and run the program using `./ping <ip_address>`.
-If you are on a BSD or Macintosh system, run the program with root privileges.
+If you are on a BSD or Macintosh system, run the program as root.
 
 ## References
 
