@@ -3,7 +3,7 @@
  * Copyright (C) 2026 Juan Mejia
  */
 
-#include "../include/icmp.h"
+#include "icmp.h"
 
 /* ICMP identifier */
 static uint16_t identifier = 0;

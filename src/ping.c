@@ -13,11 +13,12 @@
 #include <time.h>
 #include <math.h>
 
-#include "../include/icmp.h"
-#include "../include/ping.h"
+#include "icmp.h"
 
 #define BUFSIZE 64
 #define COUNT 4
+
+void ping(const char[]);
 
 int
 main(int argc, char *argv[])
